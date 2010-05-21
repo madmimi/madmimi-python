@@ -21,6 +21,8 @@ except ImportError:
         except ImportError:
             from elementtree import ElementTree
 
+from yaml import dump
+
 # ------------------------------------------------------------------------------
 # A Client For The MadMimi API
 # ------------------------------------------------------------------------------
@@ -72,10 +74,24 @@ class MadMimi(object):
       >>> mimi.subscriptions('tav@espians.com')
       <lists>
       </lists>
-
+      
+    Send a transactional email:
+    
+        >>> mimi.send_message('John Doe','johndoe@gmail.com','Promotion Name',
+        ...     'Subject of the message','sender@email.com',
+        ...     {'var1':'This will go to the template'})
+        '1146680279'
+        
+    Send an email to a list:
+    
+        >>> mimi.send_message_to_list('List Name', 'Promotion Name',
+        ...     {'var1':'This will go to the template'})
+        '1223645'
+    
     """
 
     base_url = 'http://madmimi.com/'
+    secure_base_url = 'https://madmimi.com/'
 
     def __init__(self, username, api_key):
         self.username = username
@@ -88,9 +104,15 @@ class MadMimi(object):
         return urlopen(url).read()
 
     def post(self, method, **params):
-        url = self.base_url + method
+        is_secure = params.get('is_secure')
+        if is_secure:
+            url = self.secure_base_url + method
+        else:
+            url = self.base_url + method
         params['username'] = self.username
         params['api_key'] = self.api_key
+        if params.get('sender'):
+            params['from'] = params['sender']
         return urlopen(url, urlencode(params)).read()
 
     def lists(self, as_xml=True):
@@ -142,3 +164,47 @@ class MadMimi(object):
         if not list_id:
             list_id = self.lists(as_xml=False)[list]
         return self.get('exports/audience/%s.csv' % list_id)
+    
+    def send_message(self, name, email, promotion, subject, sender, body={}):
+        """Sends a message to a user.
+        
+        Arguments:
+            name: Name of the person you are sending to.
+            email: Email address of the person you are sending to.
+            promotion: Name of the Mad Mimi promotion to send.
+            subject: Subject of the email.
+            sender: Email address the email should appear to be from.
+            body: Dict holding variables for the promotion template.
+                    {'variable': 'Replcement value'}
+        """
+        
+        # The YAML dump will fail if it encounters non-strings
+        for item, value in body.iteritems():
+            body[item] = str(value)
+        
+        recipients = "%s <%s>" % (name, email)
+        body = dump(body)
+        
+        return self.post('mailer', promotion_name=promotion,
+                recipients=recipients, subject=subject, sender=sender,
+                body=body, is_secure=True)
+    
+    def send_message_to_list(self, list_name, promotion, body={}):
+        """Send a promotion to a subscriber list.
+        
+        Arguments:
+            list_name: Name of the subscriber list to send the promotion to.
+            promotion: Name of the Mad Mimi promotion to send.
+            body: Dict holding variables for the promotion template.
+                    {'variable': 'Replcement value'}
+        """
+        
+        # The YAML dump will fail if it encounters non-strings
+        for item, value in body.iteritems():
+            body[item] = str(value)
+        
+        body = dump(body)
+        
+        return self.post('mailer/to_list', promotion_name=promotion,
+                list_name=list_name, body=body, is_secure=True)
+        
