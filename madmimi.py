@@ -145,8 +145,6 @@ class MadMimi(object):
         params['api_key'] = self.api_key
         url = url + method + '?' + urlencode(params)
         
-        raise ValueError, url
-        
         return urlopen(url).read()
     
     def _post(self, method, **params):
