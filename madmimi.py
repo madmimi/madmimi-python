@@ -21,12 +21,8 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-
-"""Module for processing credit card transactions through Authorize.net."""
-
 __author__ = ('tav@espians.com (tav),'
         'jordan.bouvier@analytemedia.com (Jordan Bouvier)')
-
 
 import csv
 import datetime

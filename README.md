@@ -1,8 +1,8 @@
-h1. Mad Mimi
+# Mad Mimi for Python
 
 Written, and released into the public domain by tav@espians.com
 
-h1. General Usage
+# General Usage
 
 mimi = MadMimi('your username', 'your api key')
 
