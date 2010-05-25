@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#
+# 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
 # files (the "Software"), to deal in the Software without
@@ -113,8 +113,8 @@ class MadMimi(object):
     
     """
     
-    base_url = 'http://madmimi.com/'
-    secure_base_url = 'https://madmimi.com/'
+    base_url = 'http://api.madmimi.com/'
+    secure_base_url = 'https://api.madmimi.com/'
     
     def __init__(self, username, api_key):
         self.username = username
