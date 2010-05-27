@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 
-"""Module for processing credit card transactions through Authorize.net."""
+"""Python MadMimi client library."""
 
 __author__ = ('tav@espians.com (tav),'
         'jordan.bouvier@analytemedia.com (Jordan Bouvier)')
