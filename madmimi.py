@@ -123,6 +123,8 @@ class MadMimi(object):
     def __init__(self, username, api_key):
         self.username = username
         self.api_key = api_key
+        
+        self.urlopen = urlopen
     
     def _get(self, method, **params):
         """Issue a GET request to Madmimi.
@@ -145,7 +147,7 @@ class MadMimi(object):
         params['api_key'] = self.api_key
         url = url + method + '?' + urlencode(params)
         
-        return urlopen(url).read()
+        return self.urlopen(url).read()
     
     def _post(self, method, **params):
         """Issue a POST request to Madmimi.
@@ -169,7 +171,7 @@ class MadMimi(object):
         if params.get('sender'):
             params['from'] = params['sender']
         
-        return urlopen(url, urlencode(params)).read()
+        return self.urlopen(url, urlencode(params)).read()
     
     def lists(self, as_xml=True):
         """Get a list of audience lists.
@@ -223,6 +225,9 @@ class MadMimi(object):
         Arguments:
             contacts_data: A list of tuples containting contact data.
             fields: A tuple containing the fields that will be represented.
+        
+        Returns:
+            Nothing. The API doesn't provide a response.
         """
         
         contacts = []
@@ -233,7 +238,7 @@ class MadMimi(object):
         writer = csv.writer(csvdata)
         [writer.writerow(row) for row in contacts]
         
-        return self._post('audience_members', csv_file=csvdata.getvalue())
+        self._post('audience_members', csv_file=csvdata.getvalue())
     
     def subscribe(self, email, audience_list):
         """Add an audience member to an audience list.
@@ -241,11 +246,14 @@ class MadMimi(object):
         Arguments:
             email: The email address to add to a list.
             audience_list: The audience list to add the email address to.
+        
+        Return:
+            Nothing. The API doesn't provide a response.
         """
         
         url = 'audience_lists/%s/add' % quote(audience_list)
         
-        return self._post(url, email=email)
+        self._post(url, email=email)
     
     def unsubscribe(self, email, audience_list):
         """Remove an audience member from an audience list.
@@ -253,11 +261,14 @@ class MadMimi(object):
         Arguments:
             email: The email address to add to a list.
             audience_list: The audience list to add the email address to.
+        
+        Returns:
+            Nothing. The API doesn't provide a response.
         """
         
         url = 'audience_lists/%s/remove' % quote(audience_list)
         
-        return self._post(url, email=email)
+        self._post(url, email=email)
     
     def subscriptions(self, email):
         """Get an audience member's current subscriptions.
