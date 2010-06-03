@@ -26,10 +26,10 @@
 
 __author__ = ('tav@espians.com (tav),'
         'jordan.bouvier@analytemedia.com (Jordan Bouvier)')
+__maintainer__ = 'jordan.bouvier@analytemedia.com (Jordan Bouvier)'
 
 
 import csv
-import datetime
 
 try:
     from cStringIO import StringIO

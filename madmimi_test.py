@@ -29,10 +29,9 @@ API.
 """
 
 __author__ = 'jordan.bouvier@analytemedia.com (Jordan Bouvier)'
+__maintainer__ = 'jordan.bouvier@analytemedia.com (Jordan Bouvier)'
 
 from mock import Mock
-from nose.tools import with_setup
-from nose import tools
 import datetime
 import unittest
 from urllib import urlencode
@@ -55,6 +54,7 @@ import madmimi
 
 
 class MadMimiTest(unittest.TestCase):
+    """Tests for madmimi.py"""
     
     def setUp(self):
         """Setup fixture."""
@@ -83,7 +83,7 @@ class MadMimiTest(unittest.TestCase):
         """Test that expected url is fetched for getting a list."""
         
         self.mimi.urlopen.return_value = generate_lists(self.audience_lists)
-        lists = self.mimi.lists()
+        self.mimi.lists()
         
         args = urlencode({'username': self.email, 'api_key': self.api_key})
         expected_url = ('%saudience_lists/lists.xml?%s'
@@ -142,7 +142,7 @@ class MadMimiTest(unittest.TestCase):
     def test_subscribe(self):
         """Test that subscribe results in a properly formatted post."""
         
-        response = self.mimi.subscribe(self.recipient, self.list_name)
+        self.mimi.subscribe(self.recipient, self.list_name)
         expected_url = '%saudience_lists/%s/add' % (
                 self.mimi.base_url, quote(self.list_name))
         self.expected_args['email'] = self.recipient
@@ -221,8 +221,8 @@ class MadMimiTest(unittest.TestCase):
         self.mimi.urlopen.return_value.write(expected_response)
         self.mimi.urlopen.return_value.seek(0)
         
-        response = self.mimi.send_message_to_list(self.list_name, self.promotion,
-                self.body)
+        response = self.mimi.send_message_to_list(self.list_name,
+                self.promotion, self.body)
         
         expected_url = '%smailer/to_list' % self.mimi.secure_base_url
         
