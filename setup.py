@@ -51,5 +51,6 @@ setup(
             'Topic :: Communications :: Email :: Mailing List Servers',
             'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    py_modules=['madmimi', 'madmimi_test']
+    py_modules=['madmimi', 'madmimi_test'],
+    requires=['PyYAML'],
 )
