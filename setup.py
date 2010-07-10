@@ -32,7 +32,7 @@ from distutils.core import setup
 
 setup(
     name='MadMimi',
-    version='1.0',
+    version='1.1',
     author='tav',
     author_email='tav@espians.com',
     maintainer='Jordan Bouvier',
