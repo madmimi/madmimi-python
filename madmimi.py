@@ -21,12 +21,8 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-<<<<<<< HEAD
-=======
-
 """Python MadMimi client library."""
 
->>>>>>> jbouvier2/master
 __author__ = ('tav@espians.com (tav),'
         'jordan.bouvier@analytemedia.com (Jordan Bouvier)')
 __maintainer__ = 'jordan.bouvier@analytemedia.com (Jordan Bouvier)'
